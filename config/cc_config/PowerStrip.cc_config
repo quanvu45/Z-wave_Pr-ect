@@ -1,5 +1,4 @@
 zw_cc_multi_channel:
-  root: true
   endpoints:
     - endpoint: 1
       generic_type: GENERIC_TYPE_SWITCH_BINARY
@@ -9,9 +8,6 @@ zw_cc_multi_channel:
       specific_type: SPECIFIC_TYPE_NOT_USED
     - endpoint: 3
       generic_type: GENERIC_TYPE_SWITCH_BINARY
-      specific_type: SPECIFIC_TYPE_NOT_USED
-    - endpoint: 4
-      generic_type: GENERIC_TYPE_SWITCH_MULTILEVEL
       specific_type: SPECIFIC_TYPE_NOT_USED
 zw_cc_binaryswitch:
   binary_switches:
@@ -42,13 +38,6 @@ zw_cc_notification:
         - profile_LS: NOTIFICATION_REPORT_POWER_MANAGEMENT_V4
       state_events:
         - NOTIFICATION_EVENT_POWER_MANAGEMENT_OVERLOADED_DETECTED # Goes to idle when no longer active
-    - type: NOTIFICATION_TYPE_POWER_MANAGEMENT
-      endpoint: 4
-      agi_profile:
-        - profile_MS: ASSOCIATION_GROUP_INFO_REPORT_AGI_PROFILE_NOTIFICATION
-        - profile_LS: NOTIFICATION_REPORT_POWER_MANAGEMENT_V4
-      state_events:
-        - NOTIFICATION_EVENT_POWER_MANAGEMENT_OVERLOADED_DETECTED # Goes to idle when no longer active
 zw_cc_zwaveplusinfo:
   endpoints:
     - endpoint: 1
@@ -60,22 +49,9 @@ zw_cc_zwaveplusinfo:
     - endpoint: 3
       installer_icon_type: ICON_TYPE_GENERIC_ON_OFF_POWER_SWITCH
       user_icon_type: ICON_TYPE_GENERIC_ON_OFF_POWER_SWITCH
-    - endpoint: 4
-      installer_icon_type: ICON_TYPE_GENERIC_LIGHT_DIMMER_SWITCH
-      user_icon_type: ICON_TYPE_GENERIC_LIGHT_DIMMER_SWITCH
+
 zw_cc_agi:
   endpoints:
-    - endpoint: 0
-      groups:
-        - name: Lifeline
-          group_id: 1
-          profile_msb: 0x00
-          profile_lsb: 0x01
-          commands:
-            - command_class: COMMAND_CLASS_SWITCH_BINARY
-              command: SWITCH_BINARY_REPORT
-            - command_class: COMMAND_CLASS_BASIC
-              command: BASIC_REPORT
     - endpoint: 1
       groups:
         - name: Alarm EP 1
@@ -100,18 +76,5 @@ zw_cc_agi:
           commands:
             - command_class: COMMAND_CLASS_NOTIFICATION_V3
               command: NOTIFICATION_REPORT_V3          
-    - endpoint: 4
-      groups:
-        - name: Alarm EP 4
-          profile_msb: ASSOCIATION_GROUP_INFO_REPORT_AGI_PROFILE_NOTIFICATION
-          profile_lsb: NOTIFICATION_REPORT_POWER_MANAGEMENT_V4
-          commands:
-            - command_class: COMMAND_CLASS_NOTIFICATION_V3
-              command: NOTIFICATION_REPORT_V3 
-zw_cc_association:
-  groups:
-    - endpoint: 0    
-      group_id: 1      
-      max_nodes: 5     
-      is_multi_channel: true
+
          
