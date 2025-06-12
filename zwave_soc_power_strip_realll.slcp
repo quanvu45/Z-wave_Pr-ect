@@ -1,0 +1,176 @@
+# Silicon Labs Project Configuration Tools: slcp, v0, Component selection file.
+project_name: zwave_soc_power_strip_realll
+label: zwave_soc_power_strip_realll
+description: |
+  The Z-Wave certified Power Strip application shows an extension block implementation used to turn on several devices that are connected to power. Examples include lights, appliances, etc.
+  Endpoint 1 device type - generic type switch binary and specific type on/off power switch.
+  Endpoint 2 device type - generic type light dimmer switch and specific type light dimmer switch.
+category: Z-Wave|Apps
+filter:
+- name: Device Type
+  value: [SoC]
+- name: Project Difficulty
+  value: [Beginner]
+- name: Wireless Technology
+  value: [Z-Wave]
+package: Z-Wave
+quality: production
+readme:
+- {path: README.md}
+- {path: README.md}
+source:
+- {path: app.c}
+- {path: main.c}
+- {path: app_cli.c}
+- {path: app_btn_handler.c}
+- {path: app_cc_binary_switch_callbacks.c}
+- {path: app_cc_multilevel_switch_callbacks.c}
+tag: [prebuilt_demo]
+include:
+- path: .
+  file_list:
+  - {path: events.h}
+sdk: {id: simplicity_sdk, version: 2024.12.2}
+toolchain_settings: []
+component:
+- {id: EFR32ZG23B010F512IM48}
+- {id: ZW_MIGRATION_TO_7_19}
+- {id: app_assert}
+- {id: app_button_press}
+- {id: brd4002a}
+- {id: brd4204d}
+- {id: device_init}
+- {id: emlib_letimer}
+- {id: emlib_msc}
+- {id: emlib_timer}
+- {id: gpiointerrupt}
+- {id: mpu}
+- instance: [led1]
+  id: pwm
+- instance: [btn0, btn1, btn2, btn3, btn4]
+  id: simple_button
+- instance: [led0, led1, led2, led3, led4]
+  id: simple_led
+- {id: sl_system}
+- {id: zaf_soc}
+- {id: zw_appshw}
+- {id: zw_cc_association}
+- {id: zw_cc_basic}
+- {id: zw_cc_binary_switch}
+- {id: zw_cc_common}
+- {id: zw_cc_deviceresetlocally}
+- {id: zw_cc_firmwareupdate}
+- {id: zw_cc_indicator}
+- {id: zw_cc_manufacturerspecific}
+- {id: zw_cc_multi_channel_control}
+- {id: zw_cc_multi_channel_support}
+- {id: zw_cc_multilevel_switch_support}
+- {id: zw_cc_multilevel_switch_support_nvm}
+- {id: zw_cc_notification}
+- {id: zw_cc_notification_nvm}
+- {id: zw_cc_powerlevel}
+- {id: zw_cc_security}
+- {id: zw_cc_supervision}
+- {id: zw_cc_version}
+- {id: zw_cc_zwaveplusinfo}
+- {id: zw_cli_common}
+- {id: zw_core}
+- {id: zw_ota}
+- {id: zw_role_type_always_on}
+- {id: zw_true_status}
+- {id: zw_zaf}
+define:
+- {name: APP_PROPERTIES_CONFIG_FILE, value: <application_properties_config.h>}
+- {name: FILE_ID_APPLICATIONDATA, value: '0x00000'}
+config_file:
+- {path: config/cc_config/PowerStrip.cc_config, directory: cc_config}
+- {path: config/sample_keys/sample_encrypt.key, directory: sample_keys}
+- {path: config/sample_keys/sample_sign.key, directory: sample_keys}
+template_contribution:
+- name: cli_command
+  priority: 0
+  value:
+    name: toggle_endpoint
+    handler: cli_toggle_endpoint
+    help: Toggle the endpoint 1 or 2. Possible values are 1 or 2
+    argument:
+    - {type: uint8, help: Endpoint number (1 or 2)}
+- name: cli_command
+  priority: 0
+  value:
+    name: dim_endpoint
+    handler: cli_dim_endpoint
+    help: Dim the endpoint 2
+    argument:
+    - {type: uint8, help: 'New dimming level, it can be minimum 0 and maximum 99'}
+- name: cli_command
+  priority: 0
+  value: {name: toggle_notification_sending, handler: cli_toggle_notification_sending,
+    help: 'Send Overload detected notification, for more information, see the application
+      README'}
+- name: cli_command
+  priority: 0
+  value: {name: get_rgb_values, handler: cli_get_rgb_values, help: Get rgb LED values}
+- name: cli_command
+  priority: 0
+  value: {name: get_led_state, handler: cli_get_led_state, help: Get LED1 state from
+      the expansion header}
+configuration:
+- {name: SHORT_BUTTON_PRESS_DURATION, value: (400)}
+- {name: MEDIUM_BUTTON_PRESS_DURATION, value: (1500)}
+- {name: CC_MULTI_CHANNEL_IDENTICAL_ENDPOINTS, value: '0'}
+- {name: ZAF_CONFIG_REQUEST_KEY_S0, value: '1'}
+- {name: ZAF_CONFIG_REQUEST_KEY_S2_UNAUTHENTICATED, value: '1'}
+- {name: ZAF_CONFIG_REQUEST_KEY_S2_AUTHENTICATED, value: '1'}
+- {name: ZAF_CONFIG_NUMBER_OF_END_POINTS, value: '2'}
+- {name: CC_NOTIFICATION_MAX_NOTIFICATIONS, value: '2'}
+- {name: ZAF_CONFIG_GENERIC_TYPE, value: GENERIC_TYPE_SWITCH_BINARY}
+- {name: ZAF_CONFIG_SPECIFIC_TYPE, value: SPECIFIC_TYPE_NOT_USED}
+- {name: ZAF_CONFIG_PRODUCT_ID, value: '5'}
+- {name: ZAF_CONFIG_USER_ICON_TYPE, value: ICON_TYPE_GENERIC_POWER_STRIP}
+- {name: ZAF_CONFIG_INSTALLER_ICON_TYPE, value: ICON_TYPE_GENERIC_POWER_STRIP}
+- {name: NVM3_DEFAULT_MAX_OBJECT_SIZE, value: '1900'}
+- {name: NVM3_DEFAULT_CACHE_SIZE, value: '100'}
+- {name: SL_BOARD_ENABLE_VCOM, value: '1'}
+- {name: SL_DEVICE_INIT_EMU_EM4_STATE, value: emuEM4Hibernate}
+- {name: SL_DEVICE_INIT_EMU_EM4_RETAIN_LFRCO, value: '1'}
+- {name: SL_DEVICE_INIT_EMU_EM4_PIN_RETENTION_MODE, value: emuPinRetentionLatch}
+- {name: SL_IOSTREAM_USART_VCOM_CONVERT_BY_DEFAULT_LF_TO_CRLF, value: '1'}
+- {name: SL_IOSTREAM_USART_VCOM_RESTRICT_ENERGY_MODE_TO_ALLOW_RECEPTION, value: '0'}
+- {name: SL_IOSTREAM_EUSART_VCOM_CONVERT_BY_DEFAULT_LF_TO_CRLF, value: '1'}
+- {name: SL_IOSTREAM_EUSART_VCOM_RESTRICT_ENERGY_MODE_TO_ALLOW_RECEPTION, value: '0'}
+- {name: configUSE_IDLE_HOOK, value: '1'}
+- {name: configTIMER_TASK_PRIORITY, value: '55'}
+- condition: [device_series_2]
+  name: configMAX_SYSCALL_INTERRUPT_PRIORITY
+  value: '16'
+- condition: [device_series_2]
+  name: configKERNEL_INTERRUPT_PRIORITY
+  value: '112'
+- {name: configTIMER_QUEUE_LENGTH, value: '8'}
+- {name: SL_DEVICE_INIT_DCDC_BYPASS, value: '1'}
+- condition: [device_series_2, device_security_vault]
+  name: SL_PSA_ITS_USER_MAX_FILES
+  value: '32'
+- condition: [device_series_2, device_security_vault]
+  name: SL_PSA_KEY_USER_SLOT_COUNT
+  value: '14'
+- condition: [device_series_2]
+  name: SL_SLEEPTIMER_PERIPHERAL
+  value: SL_SLEEPTIMER_PERIPHERAL_BURTC
+- {name: CC_ASSOCIATION_MAX_GROUPS_PER_ENDPOINT, value: '4'}
+- {name: CC_ASSOCIATION_MAX_NODES_IN_GROUP, value: '5'}
+- {name: SL_PSA_ITS_SUPPORT_V1_DRIVER, value: '1'}
+- {name: SL_PSA_ITS_SUPPORT_V2_DRIVER, value: '1'}
+- {name: SL_PSA_ITS_SUPPORT_V3_DRIVER, value: '1'}
+- condition: [brd2603a]
+  name: CC_MULTILEVEL_SWITCH_CONFIG_DEFAULT_DURATION_SEC
+  value: '2'
+- {name: ZAF_APP_NAME, value: '"power_strip"'}
+- {name: SL_RAIL_UTIL_RAIL_POWER_MANAGER_INIT, value: '0'}
+ui_hints:
+  highlight:
+  - {path: README.md, focus: true}
+post_build:
+- {path: zwave_soc_power_strip_realll.slpb, profile: zwave_application}
+
