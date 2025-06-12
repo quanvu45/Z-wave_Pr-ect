@@ -18,9 +18,7 @@ zw_cc_binaryswitch:
     - endpoint: 1
     - endpoint: 2
     - endpoint: 3
-zw_cc_multilevel_switch_support:
-  switches:
-    - end_point: 4
+
 zw_cc_notification:
   notifications:
     - type: NOTIFICATION_TYPE_POWER_MANAGEMENT
